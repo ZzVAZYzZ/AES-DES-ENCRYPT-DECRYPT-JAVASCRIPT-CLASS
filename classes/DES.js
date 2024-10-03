@@ -1,4 +1,4 @@
-class DES {
+  class DES {
   constructor() {
     this.PC1 = [
       57, 49, 41, 33, 25, 17, 9, 1, 58, 50, 42, 34, 26, 18, 10, 2, 59, 51, 43,
@@ -79,6 +79,7 @@ class DES {
       1, 41, 9, 49, 17, 57, 25,
     ];
     this.NUM_OF_LEFT_SHIFTS = [1, 1, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 1];
+    this.encodeString = "";
   }
 
   //helpers
@@ -117,6 +118,14 @@ class DES {
     }
     return str;
   }
+
+  removeTrailingAtSymbols = (str) => {
+    // Kiểm tra nếu ký tự cuối cùng là @ và loại bỏ nó
+    while (str.endsWith('@')) {
+      str = str.slice(0, -1);
+    }
+    return str;
+  };
 
   //subkey generate
   keySchedule = (key) => {
@@ -183,19 +192,70 @@ class DES {
     return this.chunkString(enc, 4).map(this.binToHex).join("").toUpperCase();
   };
   //implement
-  encrypt = (msg, key) => this.des(this.stringToHex(msg), key, this.keySchedule(key));
-  decrypt = (msg, key) => this.des(msg, key, this.keySchedule(key).reverse());
+  encode = (msg, key) => this.des(this.stringToHex(msg), key, this.keySchedule(key));
+  decode = (msg, key) => this.des(msg, key, this.keySchedule(key).reverse());
+
+  runEncrypt = (plaintext, key) => {
+    this.encodeString = "";
+
+    // Duyệt qua chuỗi với bước nhảy là 8
+    for (let i = 0; i < plaintext.length; i += 8) {
+      // Lấy ra 1 khối gồm 8 ký tự
+      let block = plaintext.slice(i, i + 8);
+      if (block.length < 8) {
+        while (block.length < 8) {
+            block += '@';  // Thêm padding bằng ký tự null
+        }
+    }
+    // console.log(block);
+    
+    this.encodeString+=this.encode(block,key);
+    }
+
+    return this.encodeString;
+    
+  };
+  
+
+  runDecrypt = (ciphertext,key) => {
+
+    let decodeArray = []
+
+    let decodeResultString = ""
+
+    for (let i = 0; i < ciphertext.length; i += 16){
+      let hexBlock = ciphertext.slice(i, i + 16);
+      decodeArray.push(this.decode(hexBlock,key));
+      
+    }
+    // console.log(decodeArray);
+    
+    decodeArray.forEach((hexBlock)=>{
+      let stringBlock = this.hexToString(hexBlock);
+      stringBlock = this.removeTrailingAtSymbols(stringBlock);
+      decodeResultString+= stringBlock;
+    })
+    return decodeResultString;
+  }
+  
 }
 
-let key = "password"; // hex
-let msg = "haiminh4"; // hex
+let key = "password";
+let plaintext = "haiminh454vazy123"; 
+let uncorrectKey = "vazy4543"
 
-let des = new DES();
-let enc = des.encrypt(msg, key);
+const des = new DES();
 
-// let key = bin(stringToHex("password")); // hex
-// let msg = bin(stringToHex("haiminh4")); // hex
+const encryptedCode = des.runEncrypt(plaintext,key);
+const decryptedCode = des.runDecrypt(encryptedCode,key);
+const uncorrectDecryptedCode = des.runDecrypt(encryptedCode,uncorrectKey);
 
-console.log(enc);
-console.log(des.hexToString(des.decrypt(enc, key)));
-console.log(des.decrypt(enc, key));
+console.log(`plaintext: ${plaintext}`);
+console.log(`correct key: ${key}`);
+
+console.log(`Mã hóa: ${encryptedCode}`);
+console.log(`Giải mã khia key đúng: ${decryptedCode}`);
+console.log(`Giải mã khia key sai: ${uncorrectDecryptedCode}`);
+
+
+
