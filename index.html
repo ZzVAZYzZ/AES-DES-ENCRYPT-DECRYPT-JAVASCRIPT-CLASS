@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./scss/index.css">
+</head>
+<body>
+    <div class="wrapper">
+        <div class="logo">AES demo by Vazy</div>
+        <div class="khungHong">
+            <div class="nhap1">
+                <h2>Key:</h2>
+                <div id="key">
+                    <input type="text" id="nhapKey" maxlength="16" >
+                    <button id="generate">Generate</button>
+                </div>
+            </div>
+            <div class="nhap2">
+                <h2>Plaintext:</h2>
+                <div id="plaintext">
+                    <div id="khungPlaintext">
+                        <input type="text" id="nhapPlainText">
+                        <button id="encrypt">Encrypt</button>
+                    </div>
+                    <div id="plaintextResult"></div>
+                </div>
+            </div>
+            <div class="nhap3">
+                <h2>Ciphertext:</h2>
+                <div id="ciphertext">
+                    <div id="khungCiphertext">
+                        <input type="text" id="nhapCipherText">
+                        <button id="decrypt">Decrypt</button>
+                    </div>
+                    <div id="ciphertextResult"></div>
+                </div>
+            </div>
+            <button id="note">NOTE</button>
+            <div id="Animation">
+                <div class="oChu">Key</div>
+                <input type="text" class="oNho">
+                <input type="text" class="oNho">
+                <input type="text" class="oNho">
+                <div class="oChu">Cipher text</div>
+                <input type="text" class="oNho">
+                <input type="text" class="oNho">
+                <input type="text" class="oNho">
+            </div>
+        </div>
+    </div>
+
+
+
+    <script type="module" src="./index.js"></script>
+</body>
+</html>

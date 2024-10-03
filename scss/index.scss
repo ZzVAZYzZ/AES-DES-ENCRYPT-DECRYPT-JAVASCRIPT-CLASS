@@ -1,0 +1,214 @@
+*{
+    padding: 0;
+    margin: 0;
+    text-decoration: none;
+    list-style: none;
+    outline: none;
+}
+body{
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .wrapper{
+        width: 1440px;
+        
+        .logo{
+            height: 150px;
+            background-color: #5F4747;
+            text-align: center;
+            line-height: 150px;
+            font-size: 64px;
+            color: white;
+        }
+        .khungHong{
+            position: relative;
+            background-color: pink;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: white;
+            gap: 30px;
+            padding: 70px 0;
+            overflow: hidden;
+            .nhap1{
+                width: 900px;
+                display: flex;
+                flex-direction: column;
+                gap: 15px;
+                #key{
+                    width: 100%;
+                    height: 100px;
+                    display: flex;
+                    flex-direction: row;
+                    
+                    #nhapKey{
+                        width: 700px;
+                        font-size: 40px;
+                        padding: 0 50px;
+                    }
+                    #generate{
+                        width: 200px;
+                        font-size: 40px;
+                        background-color: #5F4747;
+                        color: white;
+                        cursor: pointer;
+                    }
+                }
+            }
+            .nhap2{
+                width: 900px;
+                display: flex;
+                flex-direction: column;
+                gap: 15px;
+
+                #plaintext{
+                    width: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 15px;
+                    #khungPlaintext{
+                        width: 100%;
+                        height: 100px;
+                        display: flex;
+                        flex-direction: row;
+                        #nhapPlainText{
+                            width: 700px;
+                            font-size: 40px;
+                            padding: 0 50px;
+                        }
+                        #encrypt{
+                            width: 200px;
+                            font-size: 40px;
+                            background-color: #5F4747;
+                            color: white;
+                            cursor: pointer;
+                        }
+                    }
+                    
+                    #plaintextResult{
+                        width: 100%;
+                        height: 250px;
+                        background-color: white;
+                        color: black;
+                        font-size: 40px;
+                        p{
+                            width: 100%;
+                            height: 100%;
+                            word-wrap:break-word;
+                        }
+                    }
+                }
+            }
+            .nhap3{
+                width: 900px;
+                display: flex;
+                flex-direction: column;
+                gap: 15px;
+                #ciphertext{
+                    width: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 15px;
+                    #khungCiphertext{
+                        width: 100%;
+                        height: 100px;
+                        display: flex;
+                        flex-direction: row;
+                        #nhapCipherText{
+                            width: 700px;
+                            font-size: 40px;
+                            padding: 0 50px;
+                        }
+                        #decrypt{
+                            width: 200px;
+                            font-size: 40px;
+                            background-color: #5F4747;
+                            color: white;
+                            cursor: pointer;
+                        }
+                    }
+                    #ciphertextResult{
+                        width: 100%;
+                        height: 250px;
+                        background-color: white;
+                        color: black;
+                        font-size: 40px;
+                        p{
+                            width: 100%;
+                            height: 100%;
+                            word-wrap:break-word;
+                        }
+                    }
+                }
+            }
+            #note{
+                width: 200px;
+                height: 100px;
+                background-color: #5F4747;
+                color: white;
+                font-size: 40px;
+                cursor: pointer;
+            }
+            #Animation{
+                width: 440px;
+                height: 100%;
+                background-color: white;
+                border: 5px solid black;
+                position: absolute;
+                right: -450px;
+                top: 0;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                padding-top: 20px;
+                gap: 35px;
+                .oChu{
+                    font-size: 40px;
+                    color: black;
+                }
+                .oNho{
+                    width: 180px;
+                    height: 100px;
+                    background-color: #5F4747;
+                    color: white;
+                    font-size: 40px;
+                    padding: 0 10px;
+                }
+            }
+        }
+    }
+}
+
+h2{
+    font-size: 40px;
+}
+
+
+
+
+.keo-qua-trai{
+    animation: keo-qua-trai .5s linear 0s 1 normal forwards;
+}   
+
+.keo-qua-phai{
+    animation: keo-qua-phai .5s linear 0s 1 normal forwards;
+}   
+
+@keyframes keo-qua-trai{
+    from{
+        right: -450px;
+    }
+    to{
+        right: 0;
+    }
+}
+
+@keyframes keo-qua-phai{
+    from{
+        right: 0;
+    }
+    to{
+        right: -450px;
+    }
+}
