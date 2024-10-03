@@ -204,7 +204,7 @@
       let block = plaintext.slice(i, i + 8);
       if (block.length < 8) {
         while (block.length < 8) {
-            block += '@';  // Thêm padding bằng ký tự null
+            block += '@';  // Thêm padding bằng ký tự @
         }
     }
     // console.log(block);
@@ -241,7 +241,7 @@
 }
 
 let key = "password";
-let plaintext = "haiminh454vazy123"; 
+let plaintext = "hai"; 
 let uncorrectKey = "vazy4543"
 
 const des = new DES();

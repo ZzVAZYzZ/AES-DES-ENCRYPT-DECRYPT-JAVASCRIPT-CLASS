@@ -1,4 +1,4 @@
-export class AES {
+ export class AES {
     
     constructor() {
         this.sbox = [
@@ -39,6 +39,7 @@ export class AES {
             0xa0, 0xe0, 0x3b, 0x4d, 0xae, 0x2a, 0xf5, 0xb0, 0xc8, 0xeb, 0xbb, 0x3c, 0x83, 0x53, 0x99, 0x61, // E
             0x17, 0x2b, 0x04, 0x7e, 0xba, 0x77, 0xd6, 0x26, 0xe1, 0x69, 0x14, 0x63, 0x55, 0x21, 0x0c, 0x7d  // F
         ];
+        this.rcon = [0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80, 0x1b, 0x36, 0x6c, 0xd8, 0xab, 0x4d, 0x9a, 0x2f, 0x5e, 0xbc, 0x63, 0xc6, 0x97, 0x35, 0x6a, 0xd4, 0xb3, 0x7d, 0xfa, 0xef, 0xc5, 0x91]
     }
 
     // set up
@@ -108,18 +109,54 @@ export class AES {
         }
     }
     
-    
+
     keyExpansion(key) {
-        // Hàm tạo khóa con từ khóa chính
-        let expandedKey = new Array(176); // Cho AES-128
+        const expandedKey = new Array(176); // Key AES-128
+        let rconpointer = 0;
+
+        
         for (let i = 0; i < 16; i++) {
             expandedKey[i] = key[i];
         }
-        // Thực hiện mở rộng khóa ở đây...
+
+    let t = 16; // bắt đầu ở vị trí 16 trở đi
+    while (t < 176) {
+        let temp = expandedKey.slice(t - 160, t); // chạy đến 160 còn lại
+
+        if (t % 16 === 0) {
+            // đảo và thêm S-box
+            temp = [this.sbox[temp[1]], this.sbox[temp[2]], this.sbox[temp[3]], this.sbox[temp[0]]];
+            // thêm Rcon
+            temp[0] ^= this.rcon[rconpointer++];
+        }
+
+        for (let i = 0; i < 160; i++) {
+            expandedKey[t] = expandedKey[t - 16] ^ temp[i];
+            t++;
+        }
+        
         return expandedKey;
-    }
-    
-    
+    }}
+
+    // keyExpansion(key) {
+    //     // console.log( this.bytesToHex(key));
+    //     let hexKeyArray = []
+    //     console.log(key);
+        
+    //     for (let i = 0; i < this.bytesToHex(key).length; i += 2){
+    //         hexKeyArray.push( `${this.bytesToHex(key).split("")[i]}${this.bytesToHex(key).split("")[i+1]}`);
+    //     }
+    //     console.log(hexKeyArray);
+        
+    //     // Hàm tạo khóa con từ khóa chính
+    //     let expandedKey = new Array(176); // Cho AES-128
+    //     for (let i = 0; i < 16; i++) {
+    //         expandedKey[i] = key[i];
+    //     }
+        
+    //     return expandedKey;
+    // }
+
     encryptBlock(block, key) {
         let state = [...block];
         let expandedKey = this.keyExpansion(key);
@@ -181,7 +218,9 @@ export class AES {
     
     runEncrypt(plaintext,key){
         let encrypted = '';  // Biến lưu kết quả mã hóa cuối cùng
-        let keyArray = this.keyTokeyArray(key)
+        
+        let keyArray = this.keyTokeyArray(key);
+        
         // Lặp qua từng khối 16 ký tự của plaintext
         for (let i = 0; i < plaintext.length; i += 16) {
             // Cắt lấy 1 khối 16 ký tự
@@ -343,17 +382,11 @@ const randomKey = aes.generateRandomHexString(16);
 
 let ciphertext = aes.runEncrypt(plaintext,correctKey);
 
+
+
 console.log("Dữ liệu:",plaintext);
 console.log("Dữ liệu mã hóa:",ciphertext);
 console.log("Khóa đúng:",correctKey);
 console.log("Khóa sai:",randomKey);
 console.log("Dữ liệu giải mã khi dùng khóa đúng:",aes.runDecrypt(ciphertext,correctKey));
 console.log("Dữ liệu giải mã khi dùng khóa sai:",aes.runDecrypt(ciphertext,randomKey));
-
-console.log();console.log();console.log();
-
-
-console.log("Dữ liệu đã mã hóa: f8b51127da449058ed5e30eb2b940a4555b8d80ed843426654a0d600f6733e10");
-
-console.log("Dữ liệu giải mã khi dùng khóa đúng:",aes.runDecrypt("f8b51127da449058ed5e30eb2b940a4555b8d80ed843426654a0d600f6733e10","I3MU3se0WDrzJ1Um"));
-console.log("Dữ liệu giải mã khi dùng khóa sai:",aes.runDecrypt("f8b51127da449058ed5e30eb2b940a4555b8d80ed843426654a0d600f6733e10",randomKey));

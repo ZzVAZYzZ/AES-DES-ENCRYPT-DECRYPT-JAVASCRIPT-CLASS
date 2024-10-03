@@ -1,5 +1,4 @@
 import { AES } from "./classes/AES.js";
-import { DES } from "./classes/DES.js";
 
 const animation = document.getElementById('Animation');
 const noteButton = document.getElementById('note');
