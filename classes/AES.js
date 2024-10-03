@@ -119,24 +119,25 @@
             expandedKey[i] = key[i];
         }
 
-    let t = 16; // bắt đầu ở vị trí 16 trở đi
-    while (t < 176) {
-        let temp = expandedKey.slice(t - 160, t); // chạy đến 160 còn lại
+        let t = 16; // bắt đầu ở vị trí 16 trở đi
+        while (t < 176) {
+            let temp = expandedKey.slice(t - 160, t); // chạy đến 160 còn lại
 
-        if (t % 16 === 0) {
-            // đảo và thêm S-box
-            temp = [this.sbox[temp[1]], this.sbox[temp[2]], this.sbox[temp[3]], this.sbox[temp[0]]];
-            // thêm Rcon
-            temp[0] ^= this.rcon[rconpointer++];
-        }
+            if (t % 16 === 0) {
+                // đảo và thêm S-box
+                temp = [this.sbox[temp[1]], this.sbox[temp[2]], this.sbox[temp[3]], this.sbox[temp[0]]];
+                // thêm Rcon
+                temp[0] ^= this.rcon[rconpointer++];
+            }
 
-        for (let i = 0; i < 160; i++) {
-            expandedKey[t] = expandedKey[t - 16] ^ temp[i];
-            t++;
+            for (let i = 0; i < 160; i++) {
+                expandedKey[t] = expandedKey[t - 16] ^ temp[i];
+                t++;
+            }
+            
+            return expandedKey;
         }
-        
-        return expandedKey;
-    }}
+    }
 
     // keyExpansion(key) {
     //     // console.log( this.bytesToHex(key));
